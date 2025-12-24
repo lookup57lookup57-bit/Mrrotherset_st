@@ -9,4 +9,3 @@ attrs==23.2.0
 charset-normalizer==3.4.0
 idna==3.10
 urllib3==2.2.3
-python chkSwigger.py
