@@ -13,7 +13,7 @@ from datetime import datetime, timedelta
 # Bot Configuration
 TOKEN = "8568251241:AAH_NhTFkns4og3W0IpH4Eok0jD9TWapsos" #Chage With Your Actul Bot Tokan#
 OWNER_ID = 7323192068 #Chage Owner Id #
-CHANNEL_USERNAME = "@Cyberworldxd" #and change channel username #
+CHANNEL_USERNAME = "@cyber_world_Xdd" #and change channel username #
 
 # User Limits and Cooldowns
 FREE_LIMIT = 300
