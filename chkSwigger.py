@@ -275,22 +275,22 @@ def create_status_buttons(user_id, current_cc, status, approved_count, declined_
     """Create VERTICAL button layout - LINE BY LINE"""
     keyboard = [
         # Line 1: Current CC
-        [InlineKeyboardButton(f"ð˜¾ð™ªð™§ð™§ð™šð™£ð™© âžœ {current_cc[:8]}...", callback_data="current_info")],
+        [InlineKeyboardButton(f"𝘾𝙪𝙧𝙧𝙚𝙣𝙩 ➜ {current_cc[:8]}...", callback_data="current_info")],
         
         # Line 2: Status
-        [InlineKeyboardButton(f" ð™Žð™©ð™–ð™©ð™ªð™¨ âžœ {status}", callback_data="status_info")],
+        [InlineKeyboardButton(f" 𝙎𝙩𝙖𝙩𝙪𝙨 ➜ {status}", callback_data="status_info")],
         
         # Line 3: Approved
-        [InlineKeyboardButton(f"âœ… ð˜¼ð™¥ð™¥ð™§ð™¤ð™«ð™šð™™ âžœ {approved_count}", callback_data="approved_info")],
+        [InlineKeyboardButton(f"✅ 𝘼𝙥𝙥𝙧𝙤𝙫𝙚𝙙 ➜ {approved_count}", callback_data="approved_info")],
         
         # Line 4: Declined  
-        [InlineKeyboardButton(f"âŒ ð˜¿ð™šð™˜ð™¡ð™žð™£ð™šð™™ âžœ {declined_count}", callback_data="declined_info")],
+        [InlineKeyboardButton(f"❌ 𝘿𝙚𝙘𝙡𝙞𝙣𝙚𝙙 ➜ {declined_count}", callback_data="declined_info")],
         
         # Line 5: Progress
-        [InlineKeyboardButton(f"â³ ð™‹ð™§ð™¤ð™œð™§ð™šð™¨ð™¨ âžœ {checked_count}/{total_to_check}", callback_data="progress_info")],
+        [InlineKeyboardButton(f"⏳ 𝙋𝙧𝙤𝙜𝙧𝙚𝙨𝙨 ➜ {checked_count}/{total_to_check}", callback_data="progress_info")],
         
         # Line 6: EMERGENCY STOP - RED COLOR
-        [InlineKeyboardButton("â˜‘ï¸ ð™Žð™ð™Šð™‹", callback_data=f"stop_check_{user_id}")]
+        [InlineKeyboardButton("☑️ 𝙎𝙏𝙊𝙋", callback_data=f"stop_check_{user_id}")]
     ]
     return InlineKeyboardMarkup(keyboard)
 
@@ -300,19 +300,19 @@ async def handle_document(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     
     if not await check_channel_membership(user_id, context):
-        await update.message.reply_text("âŒ Join our channel first to use this bot!")
+        await update.message.reply_text("❌ Join our channel first to use this bot!")
         return
     
     document = update.message.document
     
     # Check if it's a text file
     if not document.file_name.endswith('.txt'):
-        await update.message.reply_text("âŒ Please upload a .txt file!")
+        await update.message.reply_text("❌ Please upload a .txt file!")
         return
     
     try:
         # Download and parse the file
-        await update.message.reply_text("ð˜¼ð™¡ð™¡ ð˜¾ð™˜ð™¨ ð˜¼ð™§ð™š ð˜¾ð™ð™šð™˜ð™ ð™žð™£ð™œ... ð™—ð™¤ð™© ð™—ð™® @cyber_world_Xdd")
+        await update.message.reply_text("𝘼𝙡𝙡 𝘾𝙘𝙨 𝘼𝙧𝙚 𝘾𝙝𝙚𝙘𝙠𝙞𝙣𝙜... 𝙗𝙤𝙩 𝙗𝙮 @cyber_world_Xdd")
         file = await document.get_file()
         file_content = await file.download_as_bytearray()
         
@@ -322,7 +322,7 @@ async def handle_document(update: Update, context: CallbackContext):
         
         if total_ccs == 0:
             await update.message.reply_text("""
-âŒ **No valid CCs found in file!**
+❌ **No valid CCs found in file!**
 
 Please ensure your file contains CCs in this format:
 4147768578745265|04|2026|168 
@@ -347,29 +347,29 @@ Please ensure your file contains CCs in this format:
         
         # Create button message
         keyboard = [
-            [InlineKeyboardButton("ðŸš€ Check Cards", callback_data=f"start_check_{user_id}")],
-            [InlineKeyboardButton("âŒ Cancel", callback_data=f"cancel_check_{user_id}")]
+            [InlineKeyboardButton("🚀 Check Cards", callback_data=f"start_check_{user_id}")],
+            [InlineKeyboardButton("❌ Cancel", callback_data=f"cancel_check_{user_id}")]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         
         message_text = f"""
-â³ ð™”ð™¤ð™ªð™§ ð™ð™žð™¡ð™¡ ð˜¿ð™šð™©ð™šð™˜ð™©ð™šð™™ 
+⏳ 𝙔𝙤𝙪𝙧 𝙁𝙞𝙡𝙡 𝘿𝙚𝙩𝙚𝙘𝙩𝙚𝙙 
 
-âœ… ð™ð™žð™¡ð™¡ ð™‰ð™–ð™¢ð™š âžœ `{document.file_name}`
-â˜‘ï¸ ð˜¾ð™–ð™§ð™™ð™¨ ð™ð™¤ð™ªð™£ð™™ âžœ `{total_ccs}`
-ðŸ’Ž ð™”ð™¤ð™ªð™§ ð˜¾ð™˜ ð™‡ð™žð™¢ð™žð™© âžœ `{user_limit}` CCs
+✅ 𝙁𝙞𝙡𝙡 𝙉𝙖𝙢𝙚 ➜ `{document.file_name}`
+☑️ 𝘾𝙖𝙧𝙙𝙨 𝙁𝙤𝙪𝙣𝙙 ➜ `{total_ccs}`
+💎 𝙔𝙤𝙪𝙧 𝘾𝙘 𝙇𝙞𝙢𝙞𝙩 ➜ `{user_limit}` CCs
 
-ðŸ’Ž ð˜½ð™¤ð™© ð˜½ð™® âžœ @cyber_world_Xdd
-â˜‘ï¸ ð™…ð™¤ð™žð™£ ð™Šð™ªð™§ ð˜¾ð™ð™–ð™£ð™£ð™šð™¡ ð˜¼ð™£ð™™ ð™Žð™ªð™¥ð™¥ð™¤ð™§ð™© âžœ @cyber_world_Xdd
+💎 𝘽𝙤𝙩 𝘽𝙮 ➜ @cyber_world_Xdd
+☑️ 𝙅𝙤𝙞𝙣 𝙊𝙪𝙧 𝘾𝙝𝙖𝙣𝙣𝙚𝙡 𝘼𝙣𝙙 𝙎𝙪𝙥𝙥𝙤𝙧𝙩 ➜ @cyber_world_Xdd
 
-ð˜¾ð™¡ð™žð™˜ð™  ð™Šð™£ ð˜¾ð™ð™šð™˜ð™  ð˜¾ð™–ð™§ð™™ð™¨ ð™ð™¤ ð˜¾ð™ð™šð™˜ð™  ð™”ð™¤ð™ªð™§ ð˜¾ð™˜ð™¨ ðŸ˜Ž
+𝘾𝙡𝙞𝙘𝙠 𝙊𝙣 𝘾𝙝𝙚𝙘𝙠 𝘾𝙖𝙧𝙙𝙨 𝙏𝙤 𝘾𝙝𝙚𝙘𝙠 𝙔𝙤𝙪𝙧 𝘾𝙘𝙨 😎
         """
         
         await update.message.reply_text(message_text, reply_markup=reply_markup, parse_mode='Markdown')
         
     except Exception as e:
         logger.error(f"Document handling error: {e}")
-        await update.message.reply_text(f"âŒ Error processing file: {str(e)}")
+        await update.message.reply_text(f"❌ Error processing file: {str(e)}")
 
 # ENHANCED BUTTON HANDLER
 async def handle_button(update: Update, context: CallbackContext):
@@ -387,7 +387,7 @@ async def handle_button(update: Update, context: CallbackContext):
         target_user_id = int(callback_data.split('_')[2])
         
         if user_id != target_user_id:
-            await query.message.reply_text("âŒ This is not your file!")
+            await query.message.reply_text("❌ This is not your file!")
             return
         
         await start_card_check(query, context, user_id)
@@ -399,7 +399,7 @@ async def handle_button(update: Update, context: CallbackContext):
         logger.info(f"Stop button pressed for user {target_user_id} by {user_id}")
         
         if user_id != target_user_id:
-            await query.answer("âŒ This is not your check!", show_alert=True)
+            await query.answer("❌ This is not your check!", show_alert=True)
             return
         
         # AGGRESSIVE STOP MECHANISM - MULTIPLE LAYERS
@@ -427,28 +427,28 @@ async def handle_button(update: Update, context: CallbackContext):
         if stop_success:
             # INSTANT VISUAL FEEDBACK
             await query.edit_message_text(
-                "ðŸ›‘ **EMERGENCY STOP ACTIVATED!**\n\n" +
-                "âœ… Checking process terminated immediately!\n" +
-                "ðŸ“Š All resources freed!\n" +
-                "ðŸ”§ Ready for new file upload!",
+                "🛑 **EMERGENCY STOP ACTIVATED!**\n\n" +
+                "✅ Checking process terminated immediately!\n" +
+                "📊 All resources freed!\n" +
+                "🔧 Ready for new file upload!",
                 parse_mode='Markdown'
             )
             logger.info(f"User {user_id} successfully stopped check {target_user_id}")
         else:
-            await query.answer("âŒ No active check found to stop!", show_alert=True)
+            await query.answer("❌ No active check found to stop!", show_alert=True)
         
     elif callback_data.startswith('cancel_check_'):
         target_user_id = int(callback_data.split('_')[2])
         
         if user_id != target_user_id:
-            await query.message.reply_text("âŒ This is not your file!")
+            await query.message.reply_text("❌ This is not your file!")
             return
         
         # Remove user file data
         if user_id in user_files:
             del user_files[user_id]
         
-        await query.edit_message_text("âŒ **Check cancelled!**")
+        await query.edit_message_text("❌ **Check cancelled!**")
         
     elif callback_data == "check_join":
         await handle_join_callback(update, context)
@@ -458,11 +458,11 @@ async def start_card_check(query, context: CallbackContext, user_id: int):
     """MASS CHECK WITH BULLETPROOF STOP DETECTION"""
     
     if user_id not in user_files:
-        await query.edit_message_text("âŒ File data not found! Please upload again.")
+        await query.edit_message_text("❌ File data not found! Please upload again.")
         return
     
     if is_on_cooldown(user_id):
-        await query.edit_message_text("â³ **Cooldown Active!** Wait 5 minutes between mass checks.")
+        await query.edit_message_text("⏳ **Cooldown Active!** Wait 5 minutes between mass checks.")
         return
     
     file_data = user_files[user_id]
@@ -481,7 +481,7 @@ async def start_card_check(query, context: CallbackContext, user_id: int):
     user_files[user_id]['force_stop'] = False  # New direct stop flag
     
     # Create initial status
-    status_text = "ðŸš€ **Mass CC Check Started!**\n\n"
+    status_text = "🚀 **Mass CC Check Started!**\n\n"
     reply_markup = create_status_buttons(
         user_id=user_id,
         current_cc="Starting...",
@@ -526,7 +526,7 @@ async def start_card_check(query, context: CallbackContext, user_id: int):
             card_type = detect_card_type(cc_number)
             
             # UPDATE STATUS
-            status_text = "ð˜¾ð™¤ð™¤ð™ ð™žð™£ð™œ ðŸ³ ð˜¾ð˜¾ð™¨ ð™Šð™£ð™š ð™—ð™® ð™Šð™£ð™š...\n\n"
+            status_text = "𝘾𝙤𝙤𝙠𝙞𝙣𝙜 🍳 𝘾𝘾𝙨 𝙊𝙣𝙚 𝙗𝙮 𝙊𝙣𝙚...\n\n"
             reply_markup = create_status_buttons(
                 user_id=user_id,
                 current_cc=cc_number,
@@ -565,18 +565,18 @@ async def start_card_check(query, context: CallbackContext, user_id: int):
                 
                 # ORIGINAL APPROVED MESSAGE
                 approved_text = f"""
-ð˜¼ð™‹ð™‹ð™ð™Šð™‘ð™€ð˜¿ âœ…
+𝘼𝙋𝙋𝙍𝙊𝙑𝙀𝘿 ✅
 
-ð—–ð—– â‡¾ `{cc_number}|{month}|{year}|{cvv}`
-ð—šð—®ð˜ð—²ð™¬ð™–ð™® â‡¾ Stripe Auth
-ð—¥ð—²ð˜€ð—½ð—¼ð—»ð˜€ð—² â‡¾ Payment added successfully
+𝗖𝗖 ⇾ `{cc_number}|{month}|{year}|{cvv}`
+𝗚𝗮𝘁𝗲𝙬𝙖𝙮 ⇾ Stripe Auth
+𝗥𝗲𝘀𝗽𝗼𝗻𝘀𝗲 ⇾ Payment added successfully
 
 ```
-ð—•ð—œð—¡ ð—œð—»ð—³ð—¼ âžœ  {bin_info.get('brand', 'N/A')} - {bin_info.get('type', 'N/A')}
-ð—•ð—®ð—»ð—¸ âžœ  {bin_info.get('bank', 'N/A')}
-ð—–ð—¼ð˜‚ð—»ð˜ð—¿ð˜† âžœ  {bin_info.get('country_name', 'N/A')} {bin_info.get('country_flag', '')}```
+𝗕𝗜𝗡 𝗜𝗻𝗳𝗼 ➜  {bin_info.get('brand', 'N/A')} - {bin_info.get('type', 'N/A')}
+𝗕𝗮𝗻𝗸 ➜  {bin_info.get('bank', 'N/A')}
+𝗖𝗼𝘂𝗻𝘁𝗿𝘆 ➜  {bin_info.get('country_name', 'N/A')} {bin_info.get('country_flag', '')}```
 
-ð—§ð—¼ð—¼ð—¸ {process_time} ð˜€ð—²ð—°ð—¼ð—»ð—±ð˜€
+𝗧𝗼𝗼𝗸 {process_time} 𝘀𝗲𝗰𝗼𝗻𝗱𝘀
                 """
                 
                 try:
@@ -589,8 +589,8 @@ async def start_card_check(query, context: CallbackContext, user_id: int):
                 declined_count += 1
             
             # UPDATE STATUS AFTER CHECK
-            status_text = "ð˜¾ð™¤ð™¤ð™ ð™žð™£ð™œ ðŸ³ ð˜¾ð˜¾ð™¨ ð™Šð™£ð™š ð™—ð™® ð™Šð™£ð™š...\n\n"
-            final_status = "âœ… Live" if status == "approved" else "âŒ Dead"
+            status_text = "𝘾𝙤𝙤𝙠𝙞𝙣𝙜 🍳 𝘾𝘾𝙨 𝙊𝙣𝙚 𝙗𝙮 𝙊𝙣𝙚...\n\n"
+            final_status = "✅ Live" if status == "approved" else "❌ Dead"
             reply_markup = create_status_buttons(
                 user_id=user_id,
                 current_cc=cc_number,
@@ -642,27 +642,27 @@ async def start_card_check(query, context: CallbackContext, user_id: int):
     
     if was_stopped:
         final_text = f"""
-ðŸ›‘ **CHECK STOPPED BY USER**
+🛑 **CHECK STOPPED BY USER**
 
-ðŸ“Š **Partial Results:**
-âœ… Approved: {approved_count}
-âŒ Declined: {declined_count}  
-ðŸ”¢ Checked: {checked_count}
-â±ï¸ Time: {total_time}s
+📊 **Partial Results:**
+✅ Approved: {approved_count}
+❌ Declined: {declined_count}  
+🔢 Checked: {checked_count}
+⏱️ Time: {total_time}s
 
-âš¡ Process terminated successfully!
+⚡ Process terminated successfully!
         """
     else:
         final_text = f"""
-âœ… ð™ˆð™–ð™¨ð™¨ ð˜¾ð™ð™šð™˜ð™  ð˜¾ð™¤ð™¢ð™¥ð™¡ð™šð™©ð™šð™™! ð™Žð™€ð™­'ð˜¾ð™€ð™Žð™Žð™ð™ð™‡ð™‡ð™®
+✅ 𝙈𝙖𝙨𝙨 𝘾𝙝𝙚𝙘𝙠 𝘾𝙤𝙢𝙥𝙡𝙚𝙩𝙚𝙙! 𝙎𝙀𝙭'𝘾𝙀𝙎𝙎𝙁𝙐𝙇𝙇𝙮
  
-â”œðŸ“Š ð™Žð™©ð™–ð™©ð™ªð™¨
-â”œâ˜‘ï¸ ð˜¼ð™¥ð™¥ð™§ð™¤ð™«ð™šð™™ âžœ {approved_count}
-â”œâŒ ð˜¿ð™šð™˜ð™¡ð™žð™£ð™šð™™ âžœ {declined_count}
-â”œðŸ’€ ð™ð™¤ð™©ð™–ð™¡ âžœ {checked_count}  
-â”œâ±ï¸ Time: {total_time}s
+├📊 𝙎𝙩𝙖𝙩𝙪𝙨
+├☑️ 𝘼𝙥𝙥𝙧𝙤𝙫𝙚𝙙 ➜ {approved_count}
+├❌ 𝘿𝙚𝙘𝙡𝙞𝙣𝙚𝙙 ➜ {declined_count}
+├💀 𝙏𝙤𝙩𝙖𝙡 ➜ {checked_count}  
+├⏱️ Time: {total_time}s
 
-âš¡ ð™ˆð™–ð™¨ð™¨ ð˜¾ð™ð™šð™˜ð™  ð˜¾ð™¤ð™¢ð™¥ð™¡ð™šð™©ð™šâ˜‘ï¸
+⚡ 𝙈𝙖𝙨𝙨 𝘾𝙝𝙚𝙘𝙠 𝘾𝙤𝙢𝙥𝙡𝙚𝙩𝙚☑️
         """
     
     try:
@@ -729,21 +729,21 @@ async def start_command(update: Update, context: CallbackContext):
     
     if not await check_channel_membership(user_id, context):
         keyboard = [
-            [InlineKeyboardButton("ðŸ”¥ ð™…ð™Šð™„ð™‰ ð™Šð™ð™ ð˜¾ð™ƒð˜¼ð™‰ð™‰ð™€ð™‡ ðŸ”¥", url=f"https://t.me/{CHANNEL_USERNAME[1:]}")],
-            [InlineKeyboardButton("âœ… ð™„'ð™‘ð™€ ð™…ð™Šð™„ð™‰ð™€ð˜¿", callback_data="check_join")]
+            [InlineKeyboardButton("🔥 𝙅𝙊𝙄𝙉 𝙊𝙐𝙍 𝘾𝙃𝘼𝙉𝙉𝙀𝙇 🔥", url=f"https://t.me/{CHANNEL_USERNAME[1:]}")],
+            [InlineKeyboardButton("✅ 𝙄'𝙑𝙀 𝙅𝙊𝙄𝙉𝙀𝘿", callback_data="check_join")]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         
         start_text = """
-â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—
-  ð™’ð™šð™¡ð™˜ð™¤ð™¢ð™š ð™ð™¤ ð™ð™®ð™§ð™–ð™£ð™© ð™ˆð™–ð™¨ð™¨ ð˜¾ð™ð™šð™˜ð™ ð™šð™§
-â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+╔═══════════════════════╗
+  𝙒𝙚𝙡𝙘𝙤𝙢𝙚 𝙏𝙤 𝙏𝙮𝙧𝙖𝙣𝙩 𝙈𝙖𝙨𝙨 𝘾𝙝𝙚𝙘𝙠𝙚𝙧
+╚═══════════════════════╝
 
-ðŸ”’ ð—”ð—–ð—–ð—˜ð—¦ð—¦ ð——ð—˜ð—¡ð—œð—˜ð——
+🔒 𝗔𝗖𝗖𝗘𝗦𝗦 𝗗𝗘𝗡𝗜𝗘𝗗
 
-âš ï¸ ð™ð™žð™§ð™¨ð™© ð™…ð™¤ð™žð™£ ð™Šð™ªð™§ ð˜¾ð™ð™–ð™£ð™£ð™šð™¡ ð˜½ð™§ð™¤ ðŸ˜Ž
+⚠️ 𝙁𝙞𝙧𝙨𝙩 𝙅𝙤𝙞𝙣 𝙊𝙪𝙧 𝘾𝙝𝙖𝙣𝙣𝙚𝙡 𝘽𝙧𝙤 😎
 
-ðŸ’Ž ð—–ð—µð—®ð—»ð—»ð—²ð—¹: @cyber_world_Xdd â³
+💎 𝗖𝗵𝗮𝗻𝗻𝗲𝗹: @cyber_world_Xdd ⏳
         """
         
         await update.message.reply_text(start_text, reply_markup=reply_markup)
@@ -751,25 +751,25 @@ async def start_command(update: Update, context: CallbackContext):
     
     user_status = get_user_status(user_id)
     welcome_text = f"""
-â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—      
-  ð™’ð™šð™¡ð™˜ð™¤ð™¢ð™š ð™ð™¤ ð™ð™®ð™§ð™–ð™£ð™© ð™ˆð™–ð™¨ð™¨ ð˜¾ð™ð™šð™˜ð™ ð™šð™§
-â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+╔════════════════════════╗      
+  𝙒𝙚𝙡𝙘𝙤𝙢𝙚 𝙏𝙤 𝙏𝙮𝙧𝙖𝙣𝙩 𝙈𝙖𝙨𝙨 𝘾𝙝𝙚𝙘𝙠𝙚𝙧
+╚════════════════════════╝
 
-âœ… ð—”ð—°ð—°ð—²ð˜€ð˜€ ð—šð—¿ð—®ð—»ð˜ð—²ð—±
+✅ 𝗔𝗰𝗰𝗲𝘀𝘀 𝗚𝗿𝗮𝗻𝘁𝗲𝗱
 
-ðŸ“Š ð—¬ð—¼ð˜‚ð—¿ ð—¦ð˜ð—®ð˜ð˜‚ð˜€: {user_status.upper()}
+📊 𝗬𝗼𝘂𝗿 𝗦𝘁𝗮𝘁𝘂𝘀: {user_status.upper()}
 
-ðŸ”§ ð—”ð˜ƒð—®ð—¶ð—¹ð—®ð—¯ð—¹ð—² ð—–ð—¼ð—ºð—ºð—®ð—»ð—±ð˜€:
+🔧 𝗔𝘃𝗮𝗶𝗹𝗮𝗯𝗹𝗲 𝗖𝗼𝗺𝗺𝗮𝗻𝗱𝘀:
 
-â€¢ ð™ð™¨ð™š /chk ð™ð™¤ ð˜¾ð™ð™šð™˜ð™  ð™Žð™žð™£ð™œð™¡ð™š ð˜¾ð™–ð™§ð™™ð™¨
+• 𝙐𝙨𝙚 /chk 𝙏𝙤 𝘾𝙝𝙚𝙘𝙠 𝙎𝙞𝙣𝙜𝙡𝙚 𝘾𝙖𝙧𝙙𝙨
 
-â€¢ ð™…ð™ªð™¨ð™© ð™ð™¥ð™¡ð™¤ð™–ð™™ ð˜¼ð™£ð™® ð™ð™žð™¡ð™¡ ð™žð™£ .ð™©ð™­ð™© ð™ð™¤ð™§ð™¢ð™–ð™©
+• 𝙅𝙪𝙨𝙩 𝙐𝙥𝙡𝙤𝙖𝙙 𝘼𝙣𝙮 𝙁𝙞𝙡𝙡 𝙞𝙣 .𝙩𝙭𝙩 𝙁𝙤𝙧𝙢𝙖𝙩
 
-â€¢ ð™ð™¨ð™š /redeem ð™ð™¤ ð™‚ð™šð™© ð™‹ð™§ð™šð™¢ð™žð™ªð™¢ ð˜¼ð™˜ð™˜ð™šð™¨ð™¨
+• 𝙐𝙨𝙚 /redeem 𝙏𝙤 𝙂𝙚𝙩 𝙋𝙧𝙚𝙢𝙞𝙪𝙢 𝘼𝙘𝙘𝙚𝙨𝙨
 
-ðŸ˜Ž ð™ð™¨ð™š /mtxt ð˜¾ð™¤ð™¢ð™¢ð™–ð™£ð™™ ð™ð™¤ð™§ ð™ˆð™–ð™¨ð™¨ ð˜¾ð™ð™  ð™„ð™£ð™›ð™¤ð™§ð™¢ð™–ð™©ð™žð™¤ð™£ 
+😎 𝙐𝙨𝙚 /mtxt 𝘾𝙤𝙢𝙢𝙖𝙣𝙙 𝙁𝙤𝙧 𝙈𝙖𝙨𝙨 𝘾𝙝𝙠 𝙄𝙣𝙛𝙤𝙧𝙢𝙖𝙩𝙞𝙤𝙣 
 
-ðŸ’Ž ð—–ð—¿ð—²ð—±ð—¶ð˜ð˜€ âžœ @cyber_world_Xdd
+💎 𝗖𝗿𝗲𝗱𝗶𝘁𝘀 ➜ @cyber_world_Xdd
     """
     
     await update.message.reply_text(welcome_text)
@@ -780,32 +780,32 @@ async def handle_join_callback(update: Update, context: CallbackContext):
     user_id = query.from_user.id
     
     if not await check_channel_membership(user_id, context):
-        await query.answer("âŒ You haven't joined the channel yet!", show_alert=True)
+        await query.answer("❌ You haven't joined the channel yet!", show_alert=True)
         return
     
-    await query.answer("âœ… Access Granted!")
+    await query.answer("✅ Access Granted!")
     
     user_status = get_user_status(user_id)
     welcome_text = f"""
-â•”â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•—      
-  ð™’ð™šð™¡ð™˜ð™¤ð™¢ð™š ð™ð™¤ ð™ð™®ð™§ð™–ð™£ð™© ð™ˆð™–ð™¨ð™¨ ð˜¾ð™ð™šð™˜ð™ ð™šð™§ðŸ˜Ž
-â•šâ•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+╔════════════════════════╗      
+  𝙒𝙚𝙡𝙘𝙤𝙢𝙚 𝙏𝙤 𝙏𝙮𝙧𝙖𝙣𝙩 𝙈𝙖𝙨𝙨 𝘾𝙝𝙚𝙘𝙠𝙚𝙧😎
+╚════════════════════════╝
 
-âœ… ð—”ð—°ð—°ð—²ð˜€ð˜€ ð—šð—¿ð—®ð—»ð˜ð—²ð—±
+✅ 𝗔𝗰𝗰𝗲𝘀𝘀 𝗚𝗿𝗮𝗻𝘁𝗲𝗱
 
-ðŸ“Š ð—¬ð—¼ð˜‚ð—¿ ð—¦ð˜ð—®ð˜ð˜‚ð˜€: {user_status.upper()}
+📊 𝗬𝗼𝘂𝗿 𝗦𝘁𝗮𝘁𝘂𝘀: {user_status.upper()}
 
-ðŸ”§ ð—”ð˜ƒð—®ð—¶ð—¹ð—®ð—¯ð—¹ð—² ð—–ð—¼ð—ºð—ºð—®ð—»ð—±ð˜€:
+🔧 𝗔𝘃𝗮𝗶𝗹𝗮𝗯𝗹𝗲 𝗖𝗼𝗺𝗺𝗮𝗻𝗱𝘀:
 
-â€¢ ð™ð™¨ð™š /chk ð™ð™¤ ð˜¾ð™ð™šð™˜ð™  ð™Žð™žð™£ð™œð™¡ð™š ð˜¾ð™–ð™§ð™™ð™¨
+• 𝙐𝙨𝙚 /chk 𝙏𝙤 𝘾𝙝𝙚𝙘𝙠 𝙎𝙞𝙣𝙜𝙡𝙚 𝘾𝙖𝙧𝙙𝙨
 
-â€¢ ð™…ð™ªð™¨ð™© ð™ð™¥ð™¡ð™¤ð™–ð™™ ð˜¼ð™£ð™® ð™ð™žð™¡ð™¡ ð™žð™£ .ð™©ð™­ð™© ð™ð™¤ð™§ð™¢ð™–ð™©
+• 𝙅𝙪𝙨𝙩 𝙐𝙥𝙡𝙤𝙖𝙙 𝘼𝙣𝙮 𝙁𝙞𝙡𝙡 𝙞𝙣 .𝙩𝙭𝙩 𝙁𝙤𝙧𝙢𝙖𝙩
 
-â€¢ ð™ð™¨ð™š /redeem ð™ð™¤ ð™‚ð™šð™© ð™‹ð™§ð™šð™¢ð™žð™ªð™¢ ð˜¼ð™˜ð™˜ð™šð™¨ð™¨
+• 𝙐𝙨𝙚 /redeem 𝙏𝙤 𝙂𝙚𝙩 𝙋𝙧𝙚𝙢𝙞𝙪𝙢 𝘼𝙘𝙘𝙚𝙨𝙨
 
-ðŸ˜Ž ð™ð™¨ð™š /mtxt ð˜¾ð™¤ð™¢ð™¢ð™–ð™£ð™™ ð™ð™¤ð™§ ð™ˆð™–ð™¨ð™¨ ð˜¾ð™ð™  ð™„ð™£ð™›ð™¤ð™§ð™¢ð™–ð™©ð™žð™¤ð™£ 
+😎 𝙐𝙨𝙚 /mtxt 𝘾𝙤𝙢𝙢𝙖𝙣𝙙 𝙁𝙤𝙧 𝙈𝙖𝙨𝙨 𝘾𝙝𝙠 𝙄𝙣𝙛𝙤𝙧𝙢𝙖𝙩𝙞𝙤𝙣 
 
-ðŸ’Ž ð—–ð—¿ð—²ð—±ð—¶ð˜ð˜€ âžœ @cyber_world_Xdd
+💎 𝗖𝗿𝗲𝗱𝗶𝘁𝘀 ➜ @cyber_world_Xdd
     """
     
     await query.edit_message_text(welcome_text)
@@ -813,7 +813,7 @@ async def handle_join_callback(update: Update, context: CallbackContext):
 # ID command
 async def id_command(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
-    await update.message.reply_text(f"ðŸ†” ð—¬ð—¼ð˜‚ð—¿ ð—¨ð˜€ð—²ð—¿ ð—œð——: `{user_id}`", parse_mode='Markdown')
+    await update.message.reply_text(f"🆔 𝗬𝗼𝘂𝗿 𝗨𝘀𝗲𝗿 𝗜𝗗: `{user_id}`", parse_mode='Markdown')
 
 # Manual mtxt command for backward compatibility
 async def mtxt_manual_command(update: Update, context: CallbackContext):
@@ -821,17 +821,17 @@ async def mtxt_manual_command(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     
     if not await check_channel_membership(user_id, context):
-        await update.message.reply_text("âŒ Join our channel first to use this bot!")
+        await update.message.reply_text("❌ Join our channel first to use this bot!")
         return
     
     await update.message.reply_text("""
-ð™ƒð™¤ð™¬ ð™ð™¤ ð™ð™¨ð™š /ð™¢ð™©ð™­ð™© ð˜¾ð™¤ð™¢ð™¢ð™–ð™£ð™™ ðŸ³
+𝙃𝙤𝙬 𝙏𝙤 𝙐𝙨𝙚 /𝙢𝙩𝙭𝙩 𝘾𝙤𝙢𝙢𝙖𝙣𝙙 🍳
 
-1. ð™ð™¥ð™¡ð™¤ð™–ð™™ ð™–ð™£ð™® ð™›ð™žð™¡ð™¡ ð™žð™£ .ð™©ð™­ð™© ð™›ð™¤ð™§ð™¢ð™–ð™© ðŸ’Ž
+1. 𝙐𝙥𝙡𝙤𝙖𝙙 𝙖𝙣𝙮 𝙛𝙞𝙡𝙡 𝙞𝙣 .𝙩𝙭𝙩 𝙛𝙤𝙧𝙢𝙖𝙩 💎
 
-2. ð˜½ð™¤ð™© ð˜¼ð™ªð™©ð™¤ ð˜¿ð™šð™©ð™šð™˜ð™© ð™”ð™¤ð™ªð™§ ð™ð™žð™¡ð™¡ ð˜¼ð™£ð™™ ð™Žð™šð™£ð™™ ð™”ð™¤ð™ª ð™ˆð™šð™¨ð™¨ð™–ð™œð™š ðŸ˜Ž
+2. 𝘽𝙤𝙩 𝘼𝙪𝙩𝙤 𝘿𝙚𝙩𝙚𝙘𝙩 𝙔𝙤𝙪𝙧 𝙁𝙞𝙡𝙡 𝘼𝙣𝙙 𝙎𝙚𝙣𝙙 𝙔𝙤𝙪 𝙈𝙚𝙨𝙨𝙖𝙜𝙚 😎
 
-3.ð™ð™ð™–ð™£ ð˜¾ð™¡ð™žð™˜ð™  ð™Šð™£ ð˜¾ð™ð™šð™˜ð™  ð˜¾ð™–ð™§ð™™ð™¨ ð˜½ð™ªð™©ð™©ð™¤ð™£ â³
+3.𝙏𝙝𝙖𝙣 𝘾𝙡𝙞𝙘𝙠 𝙊𝙣 𝘾𝙝𝙚𝙘𝙠 𝘾𝙖𝙧𝙙𝙨 𝘽𝙪𝙩𝙩𝙤𝙣 ⏳
     """)
 
 # Single CC Check command
@@ -839,16 +839,16 @@ async def chk_command(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     
     if not await check_channel_membership(user_id, context):
-        await update.message.reply_text("âŒ Join our channel first to use this bot!")
+        await update.message.reply_text("❌ Join our channel first to use this bot!")
         return
     
     if len(context.args) == 0:
         await update.message.reply_text("""
-ðŸ’³ ð™ƒð™¤ð™¬ ð™ð™¤ ð™ð™¨ð™š ð™Žð™žð™£ð™œð™¡ð™š ð˜¾ð™ð™  ð˜¾ð™˜ð™¨ ð˜¾ð™¤ð™¢ð™¢ð™–ð™£ð™™
+💳 𝙃𝙤𝙬 𝙏𝙤 𝙐𝙨𝙚 𝙎𝙞𝙣𝙜𝙡𝙚 𝘾𝙝𝙠 𝘾𝙘𝙨 𝘾𝙤𝙢𝙢𝙖𝙣𝙙
 
-ð™ð™¨ð™š /chk ð™ð™ð™–ð™£ ð™€ð™£ð™©ð™šð™§ ð™”ð™¤ð™ªð™§ ð˜¾ð™˜
+𝙐𝙨𝙚 /chk 𝙏𝙝𝙖𝙣 𝙀𝙣𝙩𝙚𝙧 𝙔𝙤𝙪𝙧 𝘾𝙘
 
-ð—¨ð˜€ð—®ð—´ð—² âžœ `/chk 4879170029890689|02|2027|347`
+𝗨𝘀𝗮𝗴𝗲 ➜ `/chk 4879170029890689|02|2027|347`
         """)
         return
     
@@ -857,11 +857,11 @@ async def chk_command(update: Update, context: CallbackContext):
     
     if not valid_ccs:
         await update.message.reply_text(f"""
-âŒ ð—œð—»ð˜ƒð—®ð—¹ð—¶ð—± ð—–ð—– ð—³ð—¼ð—¿ð—ºð—®ð˜!
+❌ 𝗜𝗻𝘃𝗮𝗹𝗶𝗱 𝗖𝗖 𝗳𝗼𝗿𝗺𝗮𝘁!
 
-ðŸ“ ð—©ð—®ð—¹ð—¶ð—± ð—™ð—¼ð—¿ð—ºð—®ð˜ð˜€:
-â€¢ `4147768578745265|04|2026|168`
-ðŸ”§ ð—¬ð—¼ð˜‚ð—¿ ð—œð—»ð—½ð˜‚ð˜: `{cc_input}`
+📝 𝗩𝗮𝗹𝗶𝗱 𝗙𝗼𝗿𝗺𝗮𝘁𝘀:
+• `4147768578745265|04|2026|168`
+🔧 𝗬𝗼𝘂𝗿 𝗜𝗻𝗽𝘂𝘁: `{cc_input}`
         """, parse_mode='Markdown')
         return
     
@@ -871,48 +871,48 @@ async def chk_command(update: Update, context: CallbackContext):
     
     bin_info = bin_lookup(bin_number)
     processing_msg = await update.message.reply_text(f"""
-â³ ð—£ð—¿ð—¼ð—°ð—²ð˜€ð˜€ð—¶ð—»ð—´ ð—–ð—®ð—¿ð—±...
+⏳ 𝗣𝗿𝗼𝗰𝗲𝘀𝘀𝗶𝗻𝗴 𝗖𝗮𝗿𝗱...
 
-ðŸ’³ ð—–ð—®ð—¿ð—±: `{cc_number}`
-ðŸ·ï¸ ð—§ð˜†ð—½ð—²: {card_type}
-ðŸ†” ð—•ð—œð—¡: {bin_number}
+💳 𝗖𝗮𝗿𝗱: `{cc_number}`
+🏷️ 𝗧𝘆𝗽𝗲: {card_type}
+🆔 𝗕𝗜𝗡: {bin_number}
 
-â³ð˜½ð™¤ð™© ð˜½ð™® âžœ @cyber_world_Xdd
+⏳𝘽𝙤𝙩 𝘽𝙮 ➜ @cyber_world_Xdd
     """, parse_mode='Markdown')
     
     status, process_time, api_response = check_cc(cc_number, month, year, cvv)
     
     if status == "approved":
-        # âœ… ORIGINAL SINGLE CHECK APPROVED MESSAGE
+        # ✅ ORIGINAL SINGLE CHECK APPROVED MESSAGE
         result_text = f"""
-ð˜¼ð™‹ð™‹ð™ð™Šð™‘ð™€ð˜¿ âœ…
+𝘼𝙋𝙋𝙍𝙊𝙑𝙀𝘿 ✅
 
-ð—–ð—– â‡¾ `{cc_number}|{month}|{year}|{cvv}`
-ð—šð—®ð˜ð—²ð™¬ð™–ð™® â‡¾ Stripe Auth
-ð—¥ð—²ð˜€ð—½ð—¼ð—»ð˜€ð—² â‡¾ Payment added successfully
+𝗖𝗖 ⇾ `{cc_number}|{month}|{year}|{cvv}`
+𝗚𝗮𝘁𝗲𝙬𝙖𝙮 ⇾ Stripe Auth
+𝗥𝗲𝘀𝗽𝗼𝗻𝘀𝗲 ⇾ Payment added successfully
 
 ```
-ð—•ð—œð—¡ ð—œð—»ð—³ð—¼ âžœ  {bin_info.get('brand', 'N/A')} - {bin_info.get('type', 'N/A')}
-ð—•ð—®ð—»ð—¸ âžœ  {bin_info.get('bank', 'N/A')}
-ð—–ð—¼ð˜‚ð—»ð˜ð—¿ð˜† âžœ  {bin_info.get('country_name', 'N/A')} {bin_info.get('country_flag', '')}```
+𝗕𝗜𝗡 𝗜𝗻𝗳𝗼 ➜  {bin_info.get('brand', 'N/A')} - {bin_info.get('type', 'N/A')}
+𝗕𝗮𝗻𝗸 ➜  {bin_info.get('bank', 'N/A')}
+𝗖𝗼𝘂𝗻𝘁𝗿𝘆 ➜  {bin_info.get('country_name', 'N/A')} {bin_info.get('country_flag', '')}```
 
-ð—§ð—¼ð—¼ð—¸ {process_time} ð˜€ð—²ð—°ð—¼ð—»ð—±ð˜€
+𝗧𝗼𝗼𝗸 {process_time} 𝘀𝗲𝗰𝗼𝗻𝗱𝘀
         """
     else:
         result_text = f"""
-ð˜¿ð™šð™˜ð™¡ð™žð™£ð™šð™™ âŒ
+𝘿𝙚𝙘𝙡𝙞𝙣𝙚𝙙 ❌
 
-ð—–ð—®ð—¿ð—± â‡¾ {cc_number}
-ð—§ð˜†ð—½ð—² â‡¾ {card_type}
-ð—šð—®ð˜ð—²ð™¬ð™–ð™® â‡¾ Stripe Auth
-ð—¥ð—²ð˜€ð—½ð—¼ð—»ð˜€ð—² â‡¾ {api_response[:100] + '...' if api_response and len(api_response) > 100 else api_response or 'Declined'}
+𝗖𝗮𝗿𝗱 ⇾ {cc_number}
+𝗧𝘆𝗽𝗲 ⇾ {card_type}
+𝗚𝗮𝘁𝗲𝙬𝙖𝙮 ⇾ Stripe Auth
+𝗥𝗲𝘀𝗽𝗼𝗻𝘀𝗲 ⇾ {api_response[:100] + '...' if api_response and len(api_response) > 100 else api_response or 'Declined'}
 
 ```
-ð—•ð—œð—¡ ð—œð—»ð—³ð—¼ âžœ  {bin_info.get('brand', 'N/A')} - {bin_info.get('type', 'N/A')}
-ð—•ð—®ð—»ð—¸ âžœ  {bin_info.get('bank', 'N/A')}
-ð—–ð—¼ð˜‚ð—»ð˜ð—¿ð˜† â‡¾ {bin_info.get('country_name', 'N/A')} {bin_info.get('country_flag', '')}```
+𝗕𝗜𝗡 𝗜𝗻𝗳𝗼 ➜  {bin_info.get('brand', 'N/A')} - {bin_info.get('type', 'N/A')}
+𝗕𝗮𝗻𝗸 ➜  {bin_info.get('bank', 'N/A')}
+𝗖𝗼𝘂𝗻𝘁𝗿𝘆 ⇾ {bin_info.get('country_name', 'N/A')} {bin_info.get('country_flag', '')}```
 
-ð—§ð—¶ð—ºð—² â‡¾ {process_time} seconds
+𝗧𝗶𝗺𝗲 ⇾ {process_time} seconds
         """
     
     await processing_msg.edit_text(result_text, parse_mode='Markdown')
@@ -931,7 +931,7 @@ def generate_premium_code(days):
 async def code_command(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     if user_id != OWNER_ID:
-        await update.message.reply_text("âŒ Owner command only!")
+        await update.message.reply_text("❌ Owner command only!")
         return
     if len(context.args) != 1:
         await update.message.reply_text("Usage: /code <days>")
@@ -940,18 +940,18 @@ async def code_command(update: Update, context: CallbackContext):
         days = int(context.args[0])
         code = generate_premium_code(days)
         await update.message.reply_text(f"""
-ðŸ’Ž ð—£ð—¿ð—²ð—ºð—¶ð˜‚ð—º ð—–ð—¼ð—±ð—² ð—šð—²ð—»ð—²ð—¿ð—®ð˜ð—²ð—±!
-ð—–ð—¼ð—±ð—²: `{code}`
-ð——ð˜‚ð—¿ð—®ð˜ð—¶ð—¼ð—»: {days} days
-ðŸ”§ ð—¨ð˜€ð—®ð—´ð—²: /redeem {code}
+💎 𝗣𝗿𝗲𝗺𝗶𝘂𝗺 𝗖𝗼𝗱𝗲 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗲𝗱!
+𝗖𝗼𝗱𝗲: `{code}`
+𝗗𝘂𝗿𝗮𝘁𝗶𝗼𝗻: {days} days
+🔧 𝗨𝘀𝗮𝗴𝗲: /redeem {code}
         """, parse_mode='Markdown')
     except ValueError:
-        await update.message.reply_text("âŒ Invalid days format!")
+        await update.message.reply_text("❌ Invalid days format!")
 
 async def redeem_command(update: Update, context: CallbackContext):
     user_id = update.effective_user.id
     if not await check_channel_membership(user_id, context):
-        await update.message.reply_text("âŒ Join our channel first!")
+        await update.message.reply_text("❌ Join our channel first!")
         return
     if len(context.args) != 1:
         await update.message.reply_text("Usage: /redeem <code>")
@@ -962,7 +962,7 @@ async def redeem_command(update: Update, context: CallbackContext):
     c.execute("SELECT days FROM premium_codes WHERE code=? AND used_by IS NULL", (code,))
     result = c.fetchone()
     if not result:
-        await update.message.reply_text("âŒ Invalid or already used code!")
+        await update.message.reply_text("❌ Invalid or already used code!")
         conn.close()
         return
     days = result[0]
@@ -974,13 +974,13 @@ async def redeem_command(update: Update, context: CallbackContext):
     conn.close()
     expiry_date = datetime.fromtimestamp(expires_at).strftime("%Y-%m-%d %H:%M:%S")
     await update.message.reply_text(f"""
-ðŸŽ‰ ð—£ð—¿ð—²ð—ºð—¶ð˜‚ð—º ð—”ð—°ð˜ð—¶ð˜ƒð—®ð˜ð—²ð—±!
-âœ… You are now a Premium User!
-ðŸ“… Expires: {expiry_date}
-ðŸ”§ Features unlocked:
-   â€¢ Mass check limit: {PREMIUM_LIMIT} CCs
-   â€¢ Priority processing
-ðŸ’Ž Thank you for supporting!
+🎉 𝗣𝗿𝗲𝗺𝗶𝘂𝗺 𝗔𝗰𝘁𝗶𝘃𝗮𝘁𝗲𝗱!
+✅ You are now a Premium User!
+📅 Expires: {expiry_date}
+🔧 Features unlocked:
+   • Mass check limit: {PREMIUM_LIMIT} CCs
+   • Priority processing
+💎 Thank you for supporting!
     """)
 
 async def broadcast_command(update: Update, context: CallbackContext):
@@ -1005,9 +1005,9 @@ async def broadcast_command(update: Update, context: CallbackContext):
             failed += 1
         await asyncio.sleep(0.1)
     await update.message.reply_text(f"""
-ðŸ“¢ ð—•ð—¿ð—¼ð—®ð—±ð—°ð—®ð˜€ð˜ ð—–ð—¼ð—ºð—½ð—¹ð—²ð˜ð—²!
-âœ… Sent: {sent}
-âŒ Failed: {failed}
+📢 𝗕𝗿𝗼𝗮𝗱𝗰𝗮𝘀𝘁 𝗖𝗼𝗺𝗽𝗹𝗲𝘁𝗲!
+✅ Sent: {sent}
+❌ Failed: {failed}
     """)
 
 async def stats_command(update: Update, context: CallbackContext):
@@ -1028,18 +1028,18 @@ async def stats_command(update: Update, context: CallbackContext):
     available_codes = c.fetchone()[0]
     conn.close()
     stats_text = f"""
-ðŸ“Š ð—•ð—¼ð˜ ð—¦ð˜ð—®ð˜ð—¶ð˜€ð˜ð—¶ð—°ð˜€
-ðŸ‘¥ ð—¨ð˜€ð—²ð—¿ð˜€:
-â€¢ Total Users: {total_users}
-â€¢ Free Users: {free_users}
-â€¢ Premium Users: {premium_users}
-ðŸ’Ž ð—£ð—¿ð—²ð—ºð—¶ð˜‚ð—º ð—¦ð˜†ð˜€ð˜ð—²ð—º:
-â€¢ Used Codes: {used_codes}
-â€¢ Available Codes: {available_codes}
-ðŸ”§ ð—Ÿð—¶ð—ºð—¶ð˜ð˜€:
-â€¢ Free: {FREE_LIMIT} CCs
-â€¢ Premium: {PREMIUM_LIMIT} CCs
-â€¢ Owner: {OWNER_LIMIT} CCs
+📊 𝗕𝗼𝘁 𝗦𝘁𝗮𝘁𝗶𝘀𝘁𝗶𝗰𝘀
+👥 𝗨𝘀𝗲𝗿𝘀:
+• Total Users: {total_users}
+• Free Users: {free_users}
+• Premium Users: {premium_users}
+💎 𝗣𝗿𝗲𝗺𝗶𝘂𝗺 𝗦𝘆𝘀𝘁𝗲𝗺:
+• Used Codes: {used_codes}
+• Available Codes: {available_codes}
+🔧 𝗟𝗶𝗺𝗶𝘁𝘀:
+• Free: {FREE_LIMIT} CCs
+• Premium: {PREMIUM_LIMIT} CCs
+• Owner: {OWNER_LIMIT} CCs
     """
     await update.message.reply_text(stats_text)
 
@@ -1051,7 +1051,7 @@ async def error_handler(update: Update, context: CallbackContext):
     try:
         # Notify owner about the error
         if OWNER_ID:
-            error_msg = f"ðŸš¨ Bot Error:\n{context.error}"
+            error_msg = f"🚨 Bot Error:\n{context.error}"
             await context.bot.send_message(chat_id=OWNER_ID, text=error_msg)
     except:
         pass
@@ -1086,13 +1086,13 @@ def main():
     application.add_handler(CallbackQueryHandler(handle_button))
     
     # Start the bot with auto-restart
-    print("ðŸ¤– Bot is starting...")
-    print("ðŸŽ¯ AUTO FILE DETECTION ACTIVATED!")
-    print("ðŸš€ Interactive Button Interface Ready!")
-    print("ðŸ’³ Full CC display in approved messages!")
-    print("ðŸ›¡ï¸  Auto-restart protection enabled!")
-    print("ðŸ”˜ Vertical button layout implemented!")
-    print("ðŸ›‘ Military-grade stop system activated!")
+    print("🤖 Bot is starting...")
+    print("🎯 AUTO FILE DETECTION ACTIVATED!")
+    print("🚀 Interactive Button Interface Ready!")
+    print("💳 Full CC display in approved messages!")
+    print("🛡️  Auto-restart protection enabled!")
+    print("🔘 Vertical button layout implemented!")
+    print("🛑 Military-grade stop system activated!")
     
     # Run with persistent polling
     while True:
@@ -1105,10 +1105,10 @@ def main():
             )
         except Exception as e:
             logger.error(f"Bot crashed: {e}")
-            print(f"ðŸš¨ Bot crashed: {e}")
-            print("ðŸ”„ Restarting in 10 seconds...")
+            print(f"🚨 Bot crashed: {e}")
+            print("🔄 Restarting in 10 seconds...")
             time.sleep(10)
-            print("ðŸ”„ Restarting bot now...")
+            print("🔄 Restarting bot now...")
 
 if __name__ == '__main__':
     main()
